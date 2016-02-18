@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<HBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+      stylesheets="@../stylesheet/chatbubble.css">
+    <Pane prefHeight="127.0" prefWidth="75.0">
+
+        <ImageView fitHeight="68.0" fitWidth="62.0" layoutX="6.0" layoutY="14.0" pickOnBounds="true"
+                   preserveRatio="true">
+                <Image url="@../../face.png"/>
+        </ImageView>
+        <Button layoutX="10.0" layoutY="118.0" mnemonicParsing="false" text="ReSend"/>
+        <ProgressIndicator fx:id="pBar" layoutX="23.0" layoutY="79.0" progress="0.0"/>
+    </Pane>
+    <VBox fx:id="rootBox" prefHeight="157.0" prefWidth="384.0">
+        <TextArea fx:id="textMessage" editable="false" prefHeight="127.0" prefWidth="443.0"/>
+        <HBox alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="452.0" spacing="5.0" VBox.vgrow="ALWAYS">
+            <Label fx:id="lblDate" text="13.12.2015"/>
+            <Button fx:id="btnReply" mnemonicParsing="false" onAction="#btnReplyClick"/>
+            <Button fx:id="btnMore" mnemonicParsing="false" onAction="#btnMoreClick"/>
+            <Button fx:id="btnDel" mnemonicParsing="false" onAction="#btnDelClick"/>
+            <padding>
+                <Insets left="5.0" right="5.0"/>
+            </padding>
+        </HBox>
+
+    </VBox>
+</HBox>

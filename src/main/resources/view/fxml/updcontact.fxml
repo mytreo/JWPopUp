@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox stylesheets="@../stylesheet/updatecontact.css" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+      minWidth="-Infinity" prefHeight="234.0" prefWidth="460.0" xmlns="http://javafx.com/javafx/8"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="ua.mytreo.java.controller.InsUpdContact">
+    <HBox prefHeight="131.0" prefWidth="464.0" spacing="10.0">
+        <VBox alignment="CENTER">
+            <Pagination fx:id="pagination" prefHeight="200.0" prefWidth="200.0"/>
+        </VBox>
+        <Separator orientation="VERTICAL" prefHeight="200.0"/>
+        <VBox prefHeight="101.0" prefWidth="216.0">
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
+                    <Label text="Name"/>
+                    <TextField fx:id="txtName"/>
+                <padding>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                </padding>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="600.0" spacing="10.0">
+                <Label text="Group"/>
+                <ComboBox fx:id="cbxGroup" prefWidth="150.0"/>
+                <padding>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                </padding>
+                <opaqueInsets>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                </opaqueInsets>
+            </HBox>
+        </VBox>
+        <padding>
+            <Insets left="10.0" right="10.0" top="10.0"/>
+        </padding>
+    </HBox>
+    <HBox alignment="CENTER" prefHeight="57.0" prefWidth="600.0" spacing="10.0">
+        <Label text="Adress"/>
+        <TextField fx:id="txtAdress"/>
+        <Label text="IP"/>
+        <TextField fx:id="txtIp"/>
+        <padding>
+            <Insets right="10.0"/>
+        </padding>
+    </HBox>
+    <Separator prefWidth="200.0"/>
+    <HBox alignment="CENTER" prefHeight="38.0" prefWidth="600.0" spacing="120.0">
+        <Button mnemonicParsing="false" onAction="#btnOkClick" prefHeight="25.0" prefWidth="140.0" text="OK"/>
+        <Button mnemonicParsing="false" onAction="#btnCancelClick" prefHeight="25.0" prefWidth="140.0" text="Cancel"/>
+        <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+        </padding>
+    </HBox>
+</VBox>

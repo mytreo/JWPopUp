@@ -1,0 +1,35 @@
+/*sinii*/
+.chat-bubble-l{
+    -fx-shape: "m7.370001,18.602869c0.359999,0.51 0.959999,0.84 1.629999,0.84l11,-0.01c1.1,0 2,-0.889999 2,-1.99l0,-10c0,-1.1 -0.9,-1.99 -2,-1.99l-11,-0.01c-0.67,0 -1.27,0.33 -1.629999,0.84l-4.370001,6.159999l4.370001,6.160001z";
+    -fx-alignment: CENTER-RIGHT;
+    -fx-background-color: black,#4a94c9;
+    -fx-background-insets: 0,1;
+    -fx-padding: 50;
+}
+/*zeleniy*/
+.chat-bubble-r{
+    -fx-shape: "M17.63 5.84C17.27 5.33 16.67 5 16 5L5 5.01C3.9 5.01 3 5.9 3 7v10c0 1.1.9 1.99 2 1.99L16 19c.67 0 1.27-.33 1.63-.84L22 12l-4.37-6.16z";
+    -fx-alignment: CENTER-LEFT;
+    -fx-background-color: black,#afbc4a;
+    -fx-background-insets: 0,1;
+    -fx-padding: 50;
+}
+
+/*zeleniy*/
+.chat-bubble-r2{
+    -fx-shape: "m7.370001,18.602869c0.359999,0.51 0.959999,0.84 1.629999,0.84l11,-0.01c1.1,0 2,-0.889999 2,-1.99l0,-10c0,-1.1 -0.9,-1.99 -2,-1.99l-11,-0.01c-0.67,0 -1.27,0.33 -1.629999,0.84l-4.370001,6.159999l4.370001,6.160001z";
+    -fx-background-color: black,#afbc4a;
+    -fx-background-insets: 0,1;
+    -fx-padding: 50;
+}
+
+/*sinii*/
+.chat-bubble-l2{
+    -fx-shape: "m7.370001,18.602869c0.359999,0.51 0.959999,0.84 1.629999,0.84l11,-0.01c1.1,0 2,-0.889999 2,-1.99l0,-10c0,-1.1 -0.9,-1.99 -2,-1.99l-11,-0.01c-0.67,0 -1.27,0.33 -1.629999,0.84l-4.370001,6.159999l4.370001,6.160001z";
+    -fx-background-color: black,#4a94c9;
+    -fx-background-insets: 0,1;
+    -fx-padding: 50;
+}
+
+
+

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox prefHeight="295.0" prefWidth="190.0" stylesheets="@../stylesheet/mainform.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="ua.mytreo.java.controller.MainController">
+       <TreeView id="contactTree" fx:id="contactTree" VBox.vgrow="ALWAYS" />
+      <HBox alignment="TOP_RIGHT" maxHeight="37.0" prefWidth="290.0" spacing="5.0">
+            <Button id="btnAddGroup" fx:id="btnAddGroup" mnemonicParsing="false" onAction="#btnAddGroupClick">
+               <tooltip>
+                  <Tooltip text="Add Group" />
+               </tooltip></Button>
+            <Button id="btnRemoveMessages" fx:id="btnRemoveMessages" mnemonicParsing="false" onAction="#btnRemoveMessagesClick">
+               <tooltip>
+                  <Tooltip text="Delete Messages" />
+               </tooltip></Button>
+            <Button id="btnSettings" fx:id="btnSettings" mnemonicParsing="false" onAction="#btnSettingsClick">
+               <tooltip>
+                  <Tooltip text="Settings" />
+               </tooltip></Button>
+         <padding>
+            <Insets right="5.0" />
+         </padding>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </HBox>
+</VBox>
