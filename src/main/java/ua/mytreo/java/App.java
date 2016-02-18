@@ -48,7 +48,7 @@ public class App extends javafx.application.Application {
 
         //jaxaFx stage
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("./view/fxml/mainform.fxml"));
+        fxmlLoader.setLocation(getClass().getResource("/view/fxml/mainform.fxml"));
 
         Parent fxmlMain = fxmlLoader.load();
         MainController mainController = fxmlLoader.getController();
@@ -63,7 +63,7 @@ public class App extends javafx.application.Application {
         primaryStage.setMinHeight(160);
         primaryStage.initStyle(StageStyle.UTILITY);
 
-        primaryStage.getIcons().add(new Image("file:resources/images/appicon.png"));
+       // primaryStage.getIcons().add(new Image("file:resources/images/appicon.png"));
         primaryStage.show();
 
         new TrayHelper(primaryStage);//.changeIcon(true);
