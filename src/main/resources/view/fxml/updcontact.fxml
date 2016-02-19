@@ -6,7 +6,7 @@
 <VBox stylesheets="@../stylesheet/updatecontact.css" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
       minWidth="-Infinity" prefHeight="234.0" prefWidth="460.0" xmlns="http://javafx.com/javafx/8"
       xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="ua.mytreo.java.controller.InsUpdContact">
+      fx:controller="ua.mytreo.java.jwpopup.controller.InsUpdContact">
     <HBox prefHeight="131.0" prefWidth="464.0" spacing="10.0">
         <VBox alignment="CENTER">
             <Pagination fx:id="pagination" prefHeight="200.0" prefWidth="200.0"/>

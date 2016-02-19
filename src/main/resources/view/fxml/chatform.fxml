@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <VBox alignment="BOTTOM_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
       stylesheets="@../stylesheet/chatform.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="ua.mytreo.java.controller.ChatController">
+      fx:controller="ua.mytreo.java.jwpopup.controller.ChatController">
         <ListView fx:id="chatListView" prefWidth="500.0" VBox.vgrow="ALWAYS"/>
         <HBox maxHeight="17.0" minHeight="17.0"/>
         <TextArea fx:id="chatArea" maxHeight="100.0" minHeight="100.0"/>

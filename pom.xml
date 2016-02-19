@@ -16,7 +16,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>8.2.0</version>
                 <configuration>
-                    <mainClass>ua.mytreo.java.App</mainClass>
+                    <mainClass>ua.mytreo.java.jwpopup.App</mainClass>
                 </configuration>
             </plugin>
         </plugins>
