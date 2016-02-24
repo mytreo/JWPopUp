@@ -6,16 +6,17 @@ import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 
 /**
- *  @author mytreo
+ * @author mytreo
  * @version 1.0
- * 17.02.2016.
+ *          17.02.2016.
  */
-public class MailSlotReceiver {
+public class MailSlotReceiver extends Thread {
 
     JNAKernel32 k32lib;
     int lastError = 0;
     int nextMsgSize = 390; //0
     String slotPath;
+    int hSlot;
 
     public MailSlotReceiver() {
         k32lib = JNAKernel32.INSTANCE;
@@ -29,7 +30,7 @@ public class MailSlotReceiver {
 
         if (!isMailSlotExists()) {
             //256
-            int hSlot = createMailSlot( 0, JNAKernel32.MAILSLOT_WAIT_FOREVER);
+            hSlot = createMailSlot(0, JNAKernel32.MAILSLOT_WAIT_FOREVER);
 
             //передаем хендлер в отдельный поток
 
@@ -45,20 +46,25 @@ public class MailSlotReceiver {
                 }
 
                 //Memory msg = new Memory(nextMsgSize);
-                //while(true) {
-                while (hasMessage(hSlot)) {
-                    ByteBuffer msg = ByteBuffer.allocate(nextMsgSize);
-                    IntByReference read = new IntByReference();
+                while (true) {
+                    while (hasMessage(hSlot)) {
+                        ByteBuffer msg = ByteBuffer.allocate(nextMsgSize);
+                        IntByReference read = new IntByReference();
 
-                    k32lib.ReadFile(hSlot, msg, nextMsgSize, read, 0);
+                        k32lib.ReadFile(hSlot, msg, nextMsgSize, read, 0);
 
-                    //oemToChar
-                    String getMes = new String(msg.array(), Charset.forName("cp866")); //
-                    System.out.println(getMes);
+                        //oemToChar
+                        String getMes = new String(msg.array(), Charset.forName("cp866")); //
+                        System.out.println(getMes);
 
+                    }
+                    try {
+                        sleep(10000);
+                    } catch (InterruptedException e) {
+                        System.out.println("interrupted");
+                    }
                 }
-                //}
-                k32lib.CloseHandle(hSlot);
+
             } else
                 System.out.println("Create MailSlot failed.");
         } else
@@ -73,6 +79,12 @@ public class MailSlotReceiver {
             lastError = k32lib.GetLastError();
 
         return hSlot;
+    }
+
+    @Override
+    public void run() {
+        startReceiver();
+        k32lib.CloseHandle(hSlot);
     }
 
 

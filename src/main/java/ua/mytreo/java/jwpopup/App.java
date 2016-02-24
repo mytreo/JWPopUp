@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import ua.mytreo.java.jwpopup.sys.mailslot.MailSlotReceiver;
 import ua.mytreo.java.jwpopup.sys.tray.TrayHelper;
 
 import java.net.UnknownHostException;
@@ -37,13 +38,14 @@ public class App extends javafx.application.Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
         //db
         DBService dbService = new DBService();
         dbService.initBase();
 
         //mailslot
-        //MailSlotReceiver msr = new MailSlotReceiver();
-        //msr.startReceiver();
+        MailSlotReceiver msr = new MailSlotReceiver();
+        msr.start();
 
         //jaxaFx stage
         FXMLLoader fxmlLoader = new FXMLLoader();

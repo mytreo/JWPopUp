@@ -7,13 +7,14 @@ import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 
 /**
- *  @author mytreo
+ * @author mytreo
  * @version 1.0
- * 17.02.2016.
+ *          17.02.2016.
  */
 public class MailSlotSender {
     JNAKernel32 k32lib;
     String slotPath;
+    final int maxLengthWithPrefix = 450;
 
     public MailSlotSender() {
         k32lib = JNAKernel32.INSTANCE;
@@ -27,20 +28,26 @@ public class MailSlotSender {
         boolean result = false;
         String fullPath = "\\\\" + to + "\\mailslot\\" + slotPath;
         //  '\0' = #0
-        // msgFormat =  "Sender+#0+Reciever+#0^ ololo message"+ +#13#10 podpis +#13#10 deviz";
-
+        // msgFormat =  "Sender+#0+Reciever+#0^ ololo message"+ +#13#10 podpis +#13#10 deviz"
         String prefix = App.getComputerName() + a + to + a;
-        /*String msg = "123456789 123456789 123456789 123456789 " +
-				     "123456789 123456789 123456789 123456789 " +
-				     "123456789 123456789 123456789 123456789 " +
-				     "12456789"
-			     	 +"";*/
+        Integer msgLenth = maxLengthWithPrefix - prefix.length();
 
-        String msg = prefix  + "^"+"english 123456789 русская";
+        String[] messages;
+        if (textMessage.length() > msgLenth) {
+            String regexp = "(.{" + msgLenth + "})";
+            String newStr = textMessage.replaceAll(regexp, "$1|^|");
+            messages = newStr.split("\\|\\^\\|");
+            for (int j = 0; j < messages.length - 1; j++) {
+                messages[j] = ("%%" + messages[j]);
+            }
+            messages[messages.length - 1] = ("^@@" + messages[messages.length - 1]);
+        } else {
+            messages = new String[1];
+            messages[0] = "^" + textMessage;
+        }
+
+        String msg = prefix +  messages[0];
         IntByReference written = new IntByReference();
-
-        System.out.println("ClientTest");
-        System.out.println("----------");
 
         System.out.println("Try to send message " + msg + " into " + fullPath);
         int hFile = k32lib.CreateFile(fullPath, JNAKernel32.GENERIC_WRITE, JNAKernel32.FILE_SHARE_READ, 0, JNAKernel32.OPEN_EXISTING, JNAKernel32.FILE_ATTRIBUTE_NORMAL, 0);
@@ -63,7 +70,6 @@ public class MailSlotSender {
         } finally {
             k32lib.CloseHandle(hFile);
         }
-
 
         if (result) {
             System.out.println("Otpravleno");
