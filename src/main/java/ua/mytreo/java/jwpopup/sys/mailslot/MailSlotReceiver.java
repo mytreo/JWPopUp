@@ -57,6 +57,40 @@ public class MailSlotReceiver extends Thread {
                         String getMes = new String(msg.array(), Charset.forName("cp866")); //
                         System.out.println(getMes);
 
+
+                        //parse message
+                        String[] messageParts;
+                        messageParts = getMes.split("\0");
+                        //from messageParts[0];
+                        //to messageParts[1];
+
+                        String messageText = "";
+                        if (messageParts.length > 3) {
+                            for (int i = 2; i < messageParts.length; i++) {
+                                messageText = messageText + "\0" + messageParts[i];
+                            }
+                        } else {
+                            messageText = messageParts[2];
+                        }
+
+                        int type;
+                        if (messageText.startsWith("%%")) {
+                            type = 1;
+                            messageText = messageText.substring(2);
+                        } else if (messageText.startsWith("^@@")) {
+                            type = 2;
+                            messageText = messageText.substring(3);
+                        } else if (messageText.startsWith("^")) {
+                            type = 3;
+                            messageText = messageText.substring(1);
+                        } else { //##USER-
+                            type = 4;
+                            messageText = messageText.substring(7);
+                        }
+
+                        System.out.println("from "+ messageParts[0]);
+                        System.out.println("type "+ type);
+                        System.out.println("text "+ messageText);
                     }
                     try {
                         sleep(10000);
