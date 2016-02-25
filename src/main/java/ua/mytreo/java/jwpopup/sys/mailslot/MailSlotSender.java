@@ -34,10 +34,7 @@ public class MailSlotSender {
 
         String[] messages;
         if (textMessage.length() > msgLenth) {
-            String regexp = "(.{1," + msgLenth + "})";
-            String newStr = textMessage.replaceAll(regexp, "$1|^|");
-            messages = newStr.split("\\|\\^\\|");
-            //messages=textMessage.split(regexp);
+            messages = messageSplit(textMessage,msgLenth);
 
             for (int j = 0; j < messages.length - 1; j++) {
                 messages[j] = ("%%" + messages[j]);
@@ -81,5 +78,14 @@ public class MailSlotSender {
                 System.out.println("Ne otpravleno");
             }
         }
+    }
+
+    private String[] messageSplit(String textMessage, int maxLength) {
+        int kol = textMessage.length() / maxLength;
+        String[] newStrings = new String[kol];
+        for (int i = 0; i < kol; i++) {
+            newStrings[i] = textMessage.substring(i + maxLength * i - (1 * (i == 0 ? 0 : 1)), i + maxLength + maxLength * i);
+        }
+        return newStrings;
     }
 }
