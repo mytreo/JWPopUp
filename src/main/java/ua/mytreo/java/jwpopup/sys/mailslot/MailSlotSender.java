@@ -34,7 +34,7 @@ public class MailSlotSender {
 
         String[] messages;
         if (textMessage.length() > msgLenth) {
-            String regexp = "(.{" + msgLenth + "})";
+            String regexp = "(.{1," + msgLenth + "})";
             String newStr = textMessage.replaceAll(regexp, "$1|^|");
             messages = newStr.split("\\|\\^\\|");
             //messages=textMessage.split(regexp);
