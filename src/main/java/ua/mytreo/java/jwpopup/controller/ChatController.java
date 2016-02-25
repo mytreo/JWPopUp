@@ -123,10 +123,10 @@ public class ChatController implements Initializable {
             } catch (DBException e) {
                 e.printStackTrace();
             }
-            chatArea.clear();
+  //          chatArea.clear();
             refreshMessages();
             //ссылка на тот самый бабл
-            // mailSlotSender.sendMessageTo(contact.getNamePC(),chatArea.getText());
+             mailSlotSender.sendMessageTo(contact.getNamePC(),chatArea.getText());
         } else {
             tooltipChatArea.show(chatArea, chatStage.getX() + chatArea.getLayoutX() + chatArea.getWidth() / 2, chatStage.getY() + chatArea.getLayoutY() + chatArea.getHeight() / 2);
         }

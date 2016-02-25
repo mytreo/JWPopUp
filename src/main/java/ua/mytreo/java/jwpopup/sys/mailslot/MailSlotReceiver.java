@@ -93,7 +93,7 @@ public class MailSlotReceiver extends Thread {
                         System.out.println("text "+ messageText);
                     }
                     try {
-                        sleep(10000);
+                        sleep(5000);
                     } catch (InterruptedException e) {
                         System.out.println("interrupted");
                     }

@@ -14,7 +14,7 @@ import java.nio.charset.Charset;
 public class MailSlotSender {
     JNAKernel32 k32lib;
     String slotPath;
-    final int maxLengthWithPrefix = 450;
+    final int maxLengthWithPrefix = 390;
 
     public MailSlotSender() {
         k32lib = JNAKernel32.INSTANCE;
@@ -37,6 +37,8 @@ public class MailSlotSender {
             String regexp = "(.{" + msgLenth + "})";
             String newStr = textMessage.replaceAll(regexp, "$1|^|");
             messages = newStr.split("\\|\\^\\|");
+            //messages=textMessage.split(regexp);
+
             for (int j = 0; j < messages.length - 1; j++) {
                 messages[j] = ("%%" + messages[j]);
             }
@@ -46,36 +48,38 @@ public class MailSlotSender {
             messages[0] = "^" + textMessage;
         }
 
-        String msg = prefix +  messages[0];
-        IntByReference written = new IntByReference();
+        for (String message : messages) {
+            String msg = prefix + message;
+            System.out.println("Try to send message " + msg + " into " + fullPath);
 
-        System.out.println("Try to send message " + msg + " into " + fullPath);
-        int hFile = k32lib.CreateFile(fullPath, JNAKernel32.GENERIC_WRITE, JNAKernel32.FILE_SHARE_READ, 0, JNAKernel32.OPEN_EXISTING, JNAKernel32.FILE_ATTRIBUTE_NORMAL, 0);
-        try {
-            if (hFile != JNAKernel32.INVALID_HANDLE_VALUE) {
+            IntByReference written = new IntByReference();
+            int hFile = k32lib.CreateFile(fullPath, JNAKernel32.GENERIC_WRITE, JNAKernel32.FILE_SHARE_READ, 0, JNAKernel32.OPEN_EXISTING, JNAKernel32.FILE_ATTRIBUTE_NORMAL, 0);
+            try {
+                if (hFile != JNAKernel32.INVALID_HANDLE_VALUE) {
 
-                ByteBuffer bb = Charset.forName("cp866").encode(msg);
-                k32lib.WriteFile(hFile, bb, bb.array().length, written, 0);
+                    ByteBuffer bb = Charset.forName("cp866").encode(msg);
+                    k32lib.WriteFile(hFile, bb, bb.array().length, written, 0);
+                    if (!((msg.length()) == written.getValue())) {
+                        throw new Exception("something with msg length");
+                    }
 
-                if (!((msg.length()) == written.getValue())) {
-                    throw new Exception("something with msg length");
+                    System.out.println("Msg dostavko " + Integer.toString(written.getValue()) + " octets");
+                    result = true;
+                } else {
+                    throw new Exception("ohShit invalid slot");
                 }
-                System.out.println("Msg dostavko " + Integer.toString(written.getValue()) + " octets");
-                result = true;
-            } else {
-                throw new Exception("ohShit invalid slot");
-            }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        } finally {
-            k32lib.CloseHandle(hFile);
-        }
 
-        if (result) {
-            System.out.println("Otpravleno");
-        } else {
-            System.out.println("Ne otpravleno");
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            } finally {
+                k32lib.CloseHandle(hFile);
+            }
+
+            if (result) {
+                System.out.println("Otpravleno");
+            } else {
+                System.out.println("Ne otpravleno");
+            }
         }
     }
-
 }
