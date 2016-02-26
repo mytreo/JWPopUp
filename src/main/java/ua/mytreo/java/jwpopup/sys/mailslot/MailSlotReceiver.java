@@ -1,9 +1,13 @@
 package ua.mytreo.java.jwpopup.sys.mailslot;
 
 import com.sun.jna.ptr.IntByReference;
+import ua.mytreo.java.jwpopup.dbservice.DBException;
+import ua.mytreo.java.jwpopup.dbservice.DBService;
+import ua.mytreo.java.jwpopup.dbservice.dataSets.MessagesDataSet;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,6 +18,7 @@ import java.util.Map;
  */
 public class MailSlotReceiver extends Thread {
 
+    DBService dbService = new DBService();
     JNAKernel32 k32lib;
     int lastError = 0;
     int nextMsgSize = 390; //0
@@ -141,13 +146,24 @@ public class MailSlotReceiver extends Thread {
     }
 
     private void messageToUser(String from,String text){
+        int idContact;
+        try {
+            idContact = dbService.getContactIdByAdress(from);
+            dbService.addMessage(new MessagesDataSet(0, text, idContact, 0, 0, (new Date()).getTime()));
+        } catch (DBException e) {
+            e.printStackTrace();
+        }
 
-
+        //todo refresh list if dialog active
     }
 
     private void setMessageReceived(String from){
-
-
+        try {
+            dbService.setSuccessOnLastSendedMessageToContact(from);
+        } catch (DBException e) {
+            e.printStackTrace();
+        }
+        //todo otmetko dostavko
     }
 
 

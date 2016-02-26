@@ -82,6 +82,14 @@ public class DBService {
         }
     }
 
+    public int getContactIdByAdress(String adress) throws DBException {
+        try {
+            return (new ContactsDAO(connection).getByCond("namePC = " + adress)).get(0).getId();
+        } catch (SQLException e) {
+            throw new DBException(e);
+        }
+    }
+
     public List<ContactsDataSet> getContactsByGroup(int grouId) throws DBException {
         try {
             return (new ContactsDAO(connection).getByCond("group_Id = " + grouId));
@@ -109,6 +117,19 @@ public class DBService {
     public MessagesDataSet getMessage(long idMessage) throws DBException {
         try {
             return (new MessagesDAO(connection).get(idMessage));
+        } catch (SQLException e) {
+            throw new DBException(e);
+        }
+    }
+
+    public void setSuccessOnLastSendedMessageToContact(String adress) throws DBException {
+        try {
+            MessagesDAO dao=new MessagesDAO(connection);
+            MessagesDataSet mds = (dao.getByCond("success = 0 and contact_id = "
+                                 + getContactIdByAdress(adress)+"order by time desc")).get(0);
+            mds.setSuccess(1);
+            dao.updateMessage(mds);
+
         } catch (SQLException e) {
             throw new DBException(e);
         }
