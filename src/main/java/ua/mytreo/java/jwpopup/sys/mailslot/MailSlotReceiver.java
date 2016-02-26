@@ -4,6 +4,8 @@ import com.sun.jna.ptr.IntByReference;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author mytreo
@@ -50,47 +52,40 @@ public class MailSlotReceiver extends Thread {
                     while (hasMessage(hSlot)) {
                         ByteBuffer msg = ByteBuffer.allocate(nextMsgSize);
                         IntByReference read = new IntByReference();
+                        Map<String,String> unfinishedMessages = new HashMap<>();
 
                         k32lib.ReadFile(hSlot, msg, nextMsgSize, read, 0);
 
                         //oemToChar
                         String getMes = new String(msg.array(), Charset.forName("cp866")); //
-                        System.out.println(getMes);
 
+                       ParsedMessage pm = new ParsedMessage(getMes);
 
-                        //parse message
-                        String[] messageParts;
-                        messageParts = getMes.split("\0");
-                        //from messageParts[0];
-                        //to messageParts[1];
-
-                        String messageText = "";
-                        if (messageParts.length > 3) {
-                            for (int i = 2; i < messageParts.length; i++) {
-                                messageText = messageText + "\0" + messageParts[i];
+                        switch (pm.type){
+                            case 1:{
+                                if(unfinishedMessages.containsKey(pm.from)){
+                                    unfinishedMessages.replace(pm.from,unfinishedMessages.get(pm.from)+pm.text);
+                                }else{
+                                    unfinishedMessages.put(pm.from,pm.text);
+                                }
+                                break;
                             }
-                        } else {
-                            messageText = messageParts[2];
+                            case 2:{
+                                unfinishedMessages.replace(pm.from,unfinishedMessages.get(pm.from)+pm.text);
+                                messageToUser(pm.from,unfinishedMessages.get(pm.from));
+                                unfinishedMessages.remove(pm.from);
+                                break;
+                            }
+                            case 3:{
+                                messageToUser(pm.from,pm.text);
+                                break;
+                            }
+                            case 4:{
+                                setMessageReceived(pm.from);
+                                break;
+                            }
                         }
 
-                        int type;
-                        if (messageText.startsWith("%%")) {
-                            type = 1;
-                            messageText = messageText.substring(2);
-                        } else if (messageText.startsWith("^@@")) {
-                            type = 2;
-                            messageText = messageText.substring(3);
-                        } else if (messageText.startsWith("^")) {
-                            type = 3;
-                            messageText = messageText.substring(1);
-                        } else { //##USER-
-                            type = 4;
-                            messageText = messageText.substring(7);
-                        }
-
-                        System.out.println("from "+ messageParts[0]);
-                        System.out.println("type "+ type);
-                        System.out.println("text "+ messageText);
                     }
                     try {
                         sleep(5000);
@@ -144,4 +139,50 @@ public class MailSlotReceiver extends Thread {
         } else
             return false;
     }
+
+    private void messageToUser(String from,String text){
+
+
+    }
+
+    private void setMessageReceived(String from){
+
+
+    }
+
+
+    private class ParsedMessage{
+        String from;
+        int type;
+        String text;
+
+        ParsedMessage(String receivedMessageText){
+            String[] messageParts = receivedMessageText.split("\0");
+            from =  messageParts[0];
+
+            String messageText = "";
+            if (messageParts.length > 3) {
+                for (int i = 2; i < messageParts.length; i++) {
+                    messageText = messageText + "\0" + messageParts[i];
+                }
+            } else {
+                messageText = messageParts[2];
+            }
+
+            if (messageText.startsWith("%%")) {
+                type = 1;
+                text = messageText.substring(2);
+            } else if (messageText.startsWith("^@@")) {
+                type = 2;
+                text = messageText.substring(3);
+            } else if (messageText.startsWith("^")) {
+                type = 3;
+                text = messageText.substring(1);
+            } else { //##USER-
+                type = 4;
+                text = messageText.substring(7);
+            }
+        }
+    }
+
 }
