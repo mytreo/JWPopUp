@@ -15,8 +15,37 @@
                 <groupId>com.zenjava</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>8.2.0</version>
+                <executions>
+                    <!-- required before build-native -->
+                    <execution>
+                        <id>create-jfxjar</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build-jar</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>create-native</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build-native</goal>
+                        </goals>
+                    </execution>
+                </executions>
                 <configuration>
                     <mainClass>ua.mytreo.java.jwpopup.App</mainClass>
+                    <verbose>true</verbose>
+                    <deployDir>deploy</deployDir>
+                    <jfxMainAppJarName>JWPopUp.jar</jfxMainAppJarName>
+                    <vendor>mytreo</vendor>
+                    <needMenu>true</needMenu>
+                    <appName>JWPopUp</appName>
+                    <bundler>EXE</bundler>
+                    <!--
+                    remove jre from installer
+                    <bundleArguments>
+                        <runtime />
+                    </bundleArguments>-->
                 </configuration>
             </plugin>
 
@@ -29,6 +58,7 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+
         </plugins>
     </build>
 

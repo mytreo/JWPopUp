@@ -34,6 +34,7 @@ public class MailSlotSender {
 
         String[] messages;
         if (textMessage.length() > msgLenth) {
+            //дробим не регуляркой
             messages = messageSplit(textMessage,msgLenth);
 
             for (int j = 0; j < messages.length - 1; j++) {
