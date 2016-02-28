@@ -115,7 +115,6 @@ public class ChatController implements Initializable {
     }
 
     public void btnSendClick(ActionEvent actionEvent) {
-        //TODO send
         if (!chatArea.getText().isEmpty()) {
             MessagesDataSet message = new MessagesDataSet(0, chatArea.getText(), contact.getId(), 0, 0, (new Date()).getTime());
             try {
@@ -123,10 +122,11 @@ public class ChatController implements Initializable {
             } catch (DBException e) {
                 e.printStackTrace();
             }
-  //          chatArea.clear();
             refreshMessages();
             //ссылка на тот самый бабл
+            //todo vniz prokrutka obnovl infi
              mailSlotSender.sendMessageTo(contact.getNamePC(),chatArea.getText());
+            chatArea.clear();
         } else {
             tooltipChatArea.show(chatArea, chatStage.getX() + chatArea.getLayoutX() + chatArea.getWidth() / 2, chatStage.getY() + chatArea.getLayoutY() + chatArea.getHeight() / 2);
         }

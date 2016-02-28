@@ -84,7 +84,7 @@ public class DBService {
 
     public int getContactIdByAdress(String adress) throws DBException {
         try {
-            return (new ContactsDAO(connection).getByCond("namePC = " + adress)).get(0).getId();
+            return (new ContactsDAO(connection).getByCond("namePC = '" + adress+"'")).get(0).getId();
         } catch (SQLException e) {
             throw new DBException(e);
         }
@@ -126,7 +126,7 @@ public class DBService {
         try {
             MessagesDAO dao=new MessagesDAO(connection);
             MessagesDataSet mds = (dao.getByCond("success = 0 and contact_id = "
-                                 + getContactIdByAdress(adress)+"order by time desc")).get(0);
+                                 + getContactIdByAdress(adress)+" order by time desc")).get(0);
             mds.setSuccess(1);
             dao.updateMessage(mds);
 
